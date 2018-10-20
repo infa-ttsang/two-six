@@ -107,3 +107,64 @@ customer.quality.average.sales <- c(users2013.average.sales,users2014.average.sa
 year.vector <- c(2013,2014,2015,2016)
 customer.quality <- cbind(year.vector, customer.quality.transactions, customer.quality.average.sales)
 write.csv(customer.quality, "customer.quality.csv")
+
+
+
+
+#START RANDOM CODE
+barplot(total.new.users.per.year,
+        las = 2, xlab = "Year", ylab = "Total new users")
+total.new.users.per.year.sorted <- sort(table(format(as.Date(data[,4], "%m/%d/%y"),"%Y")),decreasing=T)
+write.csv(total.new.users.per.year.sorted, "total_new_users.csv")
+
+ggplot(data=as.data.frame(total.new.users.per.year), aes(x=total.new.users.per.year[,1], y=total.new.users.per.year[,2], group=1)) +
+  geom_line()+
+  geom_point()
+
+#average sales amount per transaction per month
+total.sales.per.month <- aggregate(sales_amount~format(as.Date(data[,2], "%m/%d/%y"),"%m/%y"),data,sum)
+barplot(total.sales.per.month$sales_amount,
+        las = 2,
+        ylab = "Total sales amount",
+        names.arg=as.yearqtr(as.Date(total.sales.per.month[,1],"%y%m/%d"),"%q%Y"))
+
+#data$user to get list of users. equivalen to data[,1]
+#total.sales.per.year <- aggregate(sales_amount~format(as.Date(data[,2], "%m/%d/%y"),"%m/%y"),data,sum)
+#small.data <- data[1:10,]
+
+#average sales amount per transaction per year
+average.sales.per.transaction.per.year <- aggregate(sales_amount~format(as.Date(data[,2], "%m/%d/%y"),"%Y"),data,mean)
+barplot(total.new.users.per.year,
+        las = 2, xlab = "Year", ylab = "Total new users")
+total.new.users.per.year.sorted <- sort(table(format(as.Date(data[,4], "%m/%d/%y"),"%Y")),decreasing=T)
+write.csv(total.new.users.per.year.sorted, "total_new_users.csv")
+
+ggplot(data=as.data.frame(total.new.users.per.year), aes(x=total.new.users.per.year[,1], y=total.new.users.per.year[,2], group=1)) +
+  geom_line()+
+  geom_point()
+barplot(average.sales.per.transaction.per.year$sales_amount, 
+        xlab = "Year",
+        ylab = "Average transaction amount",
+        names.arg=average.sales.per.transaction.per.year[,1])
+
+#average sales amount per user
+average.sales.per.user <- aggregate(sales_amount~user,data,mean)
+average.sales.per.user <- mean(average.sales.per.user$sales_amount)
+
+
+#total sales amount per user
+total.sales.per.user <- aggregate(sales_amount~user,data,sum)
+total.sales.per.user <- mean(total.sales.per.user$sales_amount)
+
+#average number of transactions per user
+
+total.sales.per.month <- aggregate(sales_amount~format(as.Date(data[,2], "%m/%d/%y"),"%m/%y"),data,sum)
+format(quarter,"%m") == "01"
+#total sales amount per quarter
+total.sales.per.quarter <- aggregate(sales_amount~quarter,data,sum)
+barplot(total.sales.per.quarter$sales_amount,
+        las = 2,
+        ylab = "Total sales amount",
+        names.arg=as.yearqtr(as.Date(total.sales.per.quarter[,1],"%y%m/%d"),"%q%Y"))
+
+#END RANDOM
